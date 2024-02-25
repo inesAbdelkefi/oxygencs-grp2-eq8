@@ -3,7 +3,9 @@ import logging
 import requests
 import json
 import time
-import os 
+import os
+import psycopg2
+from urllib.parse import urlparse
 
 class App:
     def __init__(self):
@@ -79,11 +81,58 @@ class App:
     def save_event_to_database(self, timestamp, temperature):
         """Save sensor data into database."""
         try:
-            # To implement
-            pass
-        except requests.exceptions.RequestException as e:
-            # To implement
-            pass
+            # Parse the database URL
+            db_url = urlparse(self.DATABASE_URL)
+
+            conn = psycopg2.connect(
+                user=db_url.username,
+                password=db_url.password,
+                host=db_url.hostname,
+                port=db_url.port,
+                database=db_url.path[1:]
+            )
+
+            cursor = conn.cursor()
+
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS sensor_data (
+                    id SERIAL PRIMARY KEY,
+                    timestamp TIMESTAMP,
+                    temperature DOUBLE PRECISION
+                )
+            """)
+
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS hvac_events (
+                    id SERIAL PRIMARY KEY,
+                    timestamp TIMESTAMP,
+                    action VARCHAR(255)
+                )
+            """)
+
+            conn.commit()
+
+            # Save sensor data
+            sensor_data_query = "INSERT INTO sensor_data (timestamp, temperature) VALUES (%s, %s);"
+            cursor.execute(sensor_data_query, (timestamp, temperature))
+
+            # Save HVAC event
+            hvac_action = self.determine_hvac_action(temperature)
+            hvac_event_query = "INSERT INTO hvac_events (timestamp, action) VALUES (%s, %s);"
+            cursor.execute(hvac_event_query, (timestamp, hvac_action))
+
+            conn.commit()
+        except Exception as e:
+            print(f"Error saving to database: {e}")
+        finally:
+            cursor.close()
+            conn.close()
+
+    def determine_hvac_action(self, temperature):
+        if float(temperature) >= float(self.T_MAX):
+            return "TurnOnAc"
+        elif float(temperature) <= float(self.T_MIN):
+            return "TurnOnHeater"
 
 
 if __name__ == "__main__":
