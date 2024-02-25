@@ -3,7 +3,7 @@ import logging
 import requests
 import json
 import time
-import os 
+import os
 
 class App:
     def __init__(self):
