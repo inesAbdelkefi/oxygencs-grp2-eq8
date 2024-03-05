@@ -8,6 +8,7 @@ requests = "*"
 signalrcore = "*"
 urllib3 = "==1.26.7"
 certifi = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

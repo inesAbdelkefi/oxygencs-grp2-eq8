@@ -1,9 +1,12 @@
+import os
 from signalrcore.hub_connection_builder import HubConnectionBuilder
+from dotenv import load_dotenv, dotenv_values
 import logging
 import requests
 import json
 import time
-import os
+
+load_dotenv()
 
 class App:
     def __init__(self):
