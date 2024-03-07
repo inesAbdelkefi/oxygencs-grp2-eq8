@@ -91,16 +91,16 @@ class App:
             try:
                 self.save_event_to_database(timestamp, action)
             except Exception as err:
-                print(err)       
+                print(err)
         elif self.idealTemp == True and self.idealTempChange == True:
             self.idealTempChange = False
             self.send_action_to_hvac(action)
             try:
                 self.save_event_to_database(timestamp, action)
             except Exception as err:
-                print(err)    
-            
-        
+                print(err)
+
+
         if self.numberTicks == self.TICKS or self.idealTemp == True:
             self.numberTicks = 0
         else:
@@ -116,7 +116,7 @@ class App:
             r = requests.get(f"{self.HOST}/api/hvac/{self.TOKEN}/{action}")
             details = json.loads(r.text)
             print(details, flush=True)
-    
+
     def determine_hvac_action(self, temperature):
         if float(temperature) > float(self.T_MAX):
             self.idealTemp = False
@@ -127,7 +127,7 @@ class App:
         else:
             self.idealTemp = True
             return "TurnOffHvac"
-    
+
     def connect_to_BD(self, db_url):
         try:
             connectionDB = psycopg2.connect(
@@ -163,7 +163,7 @@ class App:
             print("Tables created")
         except Exception as e:
             print(f"Error saving to database: {e}")
-            
+
 
     def save_sensor_to_database(self, timestamp, temperature):
         """Save sensor data into database."""
@@ -173,7 +173,7 @@ class App:
             self.conn.commit()
         except psycopg2.Error as e:
             print(f"Error saving sensor data to database: {e}")
-        
+
 
     def save_event_to_database(self, timestamp, hvac_action):
         """Save event data into database."""
@@ -183,8 +183,8 @@ class App:
             self.conn.commit()
         except psycopg2.Error as e:
             print(f"Error saving HVAC event to database: {e}")
-        
-            
+
+
 
 if __name__ == "__main__":
 
