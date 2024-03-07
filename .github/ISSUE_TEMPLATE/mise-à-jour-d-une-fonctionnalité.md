@@ -17,7 +17,7 @@ Description de la fonction existante.
 Si Non, veuillez choisir une autre catégorie pour la création de la tâche.
 
 **Qu'est-ce que ce changement apportera à cette fonctionnalité?**
-Description du changement, 
+Description du changement,
 
 **Décrivez comment la fonctionnalité sera modifiée**
 Description de l'implémentation du changement

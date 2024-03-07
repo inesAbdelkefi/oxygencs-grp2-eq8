@@ -27,7 +27,7 @@
  - [ ] Mon code a été commenté.
  - [ ] Mon code ne cause pas d'erreurs au lancement et durant le fonctionnement.
  - [ ] J'ai implémenté des tests et testé mon code.
- - [ ] Tout les anciens et nouveaux tests fonctionnent. 
+ - [ ] Tout les anciens et nouveaux tests fonctionnent.
 
  # Information additionnelle
     Ajouter ici des informations additionnelles
