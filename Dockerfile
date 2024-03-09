@@ -39,7 +39,7 @@ ENV HOST=http://159.203.50.162 \
 RUN apk update && \
     apk add --no-cache \
     libpq
-    
+
 # Remove unnecessary packages
 RUN apk del build-base libffi-dev postgresql-dev expat
 
