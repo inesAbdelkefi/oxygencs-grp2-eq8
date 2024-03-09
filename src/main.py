@@ -1,6 +1,6 @@
 import os
 from signalrcore.hub_connection_builder import HubConnectionBuilder
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 import logging
 import requests
 import json
