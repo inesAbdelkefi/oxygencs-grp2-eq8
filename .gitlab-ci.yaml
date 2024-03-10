@@ -11,10 +11,11 @@ variables:
   IMAGE_TAG: "latest"
 
 before_script:
+  - apt-get update -qy
   - apt-get update
+  - apt-get install -y docker.io
   - apt-get install -y python3-pip
   - pip install pipenv
-  - apt-get update -qy
 
 pre_commit:
   stage: pre_commit
