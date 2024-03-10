@@ -1,9 +1,8 @@
 image: python:3.8
 
 stages:
-  - pre_commit
   - test
-  - lint
+  - pre_commit
   - build
   - deploy
 
@@ -41,13 +40,6 @@ unit_tests:
   script:
     - pipenv install --dev
     - pipenv run pytest
-
-lint_code:
-  stage: lint
-  script:
-    - pipenv install --dev
-    - pipenv run pylint src/
-    - pipenv run black --check .
 
 build_docker_image:
   stage: build
