@@ -15,7 +15,7 @@ before_script:
 unit_tests:
   stage: test
   script:
-    - pip3 install pytest
+    - pipenv install pytest
     - pytest
 
 lint_code:
