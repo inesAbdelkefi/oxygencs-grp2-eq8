@@ -29,3 +29,12 @@ repos:
   hooks:
     - id: pylint
       args: ["--errors-only"]
+      entry: pipenv run pylint
+
+- repo: local
+  hooks:
+    - id: pytest
+      name: pytest
+      language: system
+      entry: pipenv run pytest
+      types: [python]
