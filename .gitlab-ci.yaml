@@ -1,29 +1,53 @@
+image: python:3.8
+
 stages:
+  - pre_commit
   - test
   - lint
   - build
   - deploy
 
 variables:
-  DOCKER_HUB_REPO: "iabdelkefi/oxygencs-grp2-eq8"
+  DOCKER_HUB_REPO: "shodaisd/oxygencs-app-grp2-eq8"
   IMAGE_TAG: "latest"
 
 before_script:
+  - apt-get update
+  - apt-get install -y python3-pip
+  - pip install pipenv
   - apt-get update -qy
-  - apt-get install -y python3-pip docker.io
+
+pre_commit:
+  stage: pre_commit
+  variables:
+    HOST: http://159.203.50.162
+    TOKEN: d6e33ac9ad141a18af77
+    T_MAX: 20
+    T_MIN: 10
+    DATABASE_URL: postgresql://user02eq8:5ZBBwc9GvESZLKhg@157.230.69.113:5432/db02eq8
+  script:
+    - pipenv install --dev
+    - pipenv install --dev pre-commit
+    - pipenv run pre-commit run --all-files
 
 unit_tests:
   stage: test
+  variables:
+    HOST: http://159.203.50.162
+    TOKEN: d6e33ac9ad141a18af77
+    T_MAX: 20
+    T_MIN: 10
+    DATABASE_URL: postgresql://user02eq8:5ZBBwc9GvESZLKhg@157.230.69.113:5432/db02eq8
   script:
-    - pipenv install pytest
-    - pytest
+    - pipenv install --dev
+    - pipenv run pytest
 
 lint_code:
   stage: lint
   script:
-    - pipenv install pylint black
-    - pylint src/
-    - black --check .
+    - pipenv install --dev
+    - pipenv run pylint src/
+    - pipenv run black --check .
 
 build_docker_image:
   stage: build
