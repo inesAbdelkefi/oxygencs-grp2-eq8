@@ -1,4 +1,4 @@
-image: python:3.9-alpine
+image: python:3.8-alpine
 
 stages:
   - test
@@ -15,10 +15,8 @@ services:
 
 before_script:
   - apk update
-  - apk add --no-cache docker
+  - apk add --no-cache build-base libffi-dev postgresql-dev
   - apt-get update -qy
-  - apt-get update
-  - apt-get install -y docker.io
   - apt-get install -y python3-pip
   - pip install pipenv
 
