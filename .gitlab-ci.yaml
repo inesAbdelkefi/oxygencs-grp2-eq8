@@ -21,7 +21,7 @@ unit_tests:
 lint_code:
   stage: lint
   script:
-    - pip3 install pylint black
+    - pipenv install pylint black
     - pylint src/
     - black --check .
 
