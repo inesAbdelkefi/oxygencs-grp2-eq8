@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM python:3.9-alpine AS build
+FROM python:3.8-alpine AS build
 
 # Install system dependencies
 RUN apk update && \
@@ -26,7 +26,7 @@ RUN pipenv install --deploy --system --ignore-pipfile && \
 COPY src /build
 
 # Stage 2: Production Stage
-FROM python:3.9-alpine AS production
+FROM python:3.8-alpine AS production
 
 # Set environment variables
 ENV HOST=http://159.203.50.162 \
