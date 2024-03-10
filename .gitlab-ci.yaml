@@ -10,6 +10,9 @@ variables:
   DOCKER_HUB_REPO: "shodaisd/oxygencs-app-grp2-eq8"
   IMAGE_TAG: "latest"
 
+services:
+  - docker:dind
+
 before_script:
   - apt-get update -qy
   - apt-get update
