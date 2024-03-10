@@ -1,0 +1,42 @@
+stages:
+  - test
+  - lint
+  - build
+  - deploy
+
+variables:
+  DOCKER_HUB_REPO: "iabdelkefi/oxygencs-grp2-eq8"
+  IMAGE_TAG: "latest"
+
+before_script:
+  - apt-get update -qy
+  - apt-get install -y python3-pip docker.io
+
+unit_tests:
+  stage: test
+  script:
+    - pipenv install pytest
+    - pytest
+
+lint_code:
+  stage: lint
+  script:
+    - pipenv install pylint black
+    - pylint src/
+    - black --check .
+
+build_docker_image:
+  stage: build
+  only:
+    - main
+  script:
+    - docker build -t $DOCKER_HUB_REPO:$IMAGE_TAG .
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker push $DOCKER_HUB_REPO:$IMAGE_TAG
+
+deploy_to_dockerhub:
+  stage: deploy
+  only:
+    - main
+  script:
+    - echo "Deploying to Docker Hub..."

@@ -24,9 +24,17 @@ repos:
   hooks:
     - id: debug-statements
 
-
 - repo: https://github.com/pre-commit/mirrors-pylint
   rev: v3.0.0a5
   hooks:
     - id: pylint
-      exclude: main.py
+      args: ["--errors-only"]
+      entry: pipenv run pylint
+
+- repo: local
+  hooks:
+    - id: pytest
+      name: pytest
+      language: system
+      entry: pipenv run pytest
+      types: [python]
